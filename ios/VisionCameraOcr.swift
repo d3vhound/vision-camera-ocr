@@ -7,6 +7,20 @@ import UIKit
 
 @objc(OCRFrameProcessorPlugin)
 public class OCRFrameProcessorPlugin: FrameProcessorPlugin {
+    private static func orientationToString(_ orientation: UIImage.Orientation) -> String {
+        switch orientation {
+            case .up: return "up"
+            case .down: return "down"
+            case .left: return "left"
+            case .right: return "right"
+            case .upMirrored: return "upMirrored"
+            case .downMirrored: return "downMirrored"
+            case .leftMirrored: return "leftMirrored"
+            case .rightMirrored: return "rightMirrored"
+        @unknown default:
+            return "unknown"
+        }
+    }
     
     private static let textRecognizer = TextRecognizer.textRecognizer(options: TextRecognizerOptions.init())
     
@@ -151,8 +165,8 @@ public class OCRFrameProcessorPlugin: FrameProcessorPlugin {
             "result": [
                 "text": result.text,
                 "blocks": OCRFrameProcessorPlugin.getBlockArray(result.blocks),
-                "orientation": visionImage.orientation,
-                "og-orientation": frame.orientation
+                "orientation": OCRFrameProcessorPlugin.orientationToString(visionImage.orientation),
+                "og-orientation": OCRFrameProcessorPlugin.orientationToString(frame.orientation)
             ]
         ]
     }
