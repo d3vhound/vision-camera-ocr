@@ -124,7 +124,19 @@ public class OCRFrameProcessorPlugin: FrameProcessorPlugin {
         
         let visionImage = VisionImage(buffer: frame.buffer)
         
-        visionImage.orientation = frame.orientation
+        // Set the orientation of visionImage to the opposite of the frame's orientation
+        // Opposite compare to the `up` orientation
+        switch frame.orientation {
+            case .left:
+                visionImage.orientation = .right
+            case .right:
+                visionImage.orientation = .left
+            case .up:
+                visionImage.orientation = .down
+            case .down:
+                visionImage.orientation = .up
+            default: visionImage.orientation = frame.orientation
+        }
         
         var result: Text
         
