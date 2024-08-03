@@ -151,6 +151,8 @@ public class OCRFrameProcessorPlugin: FrameProcessorPlugin {
             "result": [
                 "text": result.text,
                 "blocks": OCRFrameProcessorPlugin.getBlockArray(result.blocks),
+                "orientation": visionImage.orientation,
+                "og-orientation": frame.orientation
             ]
         ]
     }

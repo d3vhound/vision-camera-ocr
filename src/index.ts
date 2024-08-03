@@ -55,6 +55,8 @@ type TextBlock = {
 type Text = {
   text: string;
   blocks: TextBlock[];
+  orientation: string;
+  ogOrientation: string;
 };
 
 export type OCRFrame = {
