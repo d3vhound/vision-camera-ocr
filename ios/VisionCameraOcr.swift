@@ -133,31 +133,35 @@ public class OCRFrameProcessorPlugin: FrameProcessorPlugin {
              "bottom": $0.minY
          ]}
     }
+
+    func getOrientation(
+        orientation: UIImage.Orientation
+    ) -> UIImage.Orientation {
+        switch orientation {
+        case .up:
+            // device is landscape left
+            return .up
+        case .left:
+        // device is portrait
+            return .right
+        case .down:
+            // device is landscape right
+            return .down
+        case .right:
+            // device is upside-down
+            return .left
+        default:
+                return .up
+            }
+        }
     
     public override func callback(_ frame: Frame, withArguments arguments: [AnyHashable: Any]?) -> Any? {
-        
+        let orientation = getOrientation(
+            orientation: frame.orientation
+        )
         let visionImage = VisionImage(buffer: frame.buffer)
-        
-        // Set the orientation of visionImage to the opposite of the frame's orientation
-        // Opposite compare to the `up` orientation
-        switch frame.orientation {
-            case .left:
-                print("left")
-                visionImage.orientation = .right
-            case .right:
-                print("right")
-                visionImage.orientation = .left
-            case .up:
-                print("up")
-                visionImage.orientation = .up
-            case .down:
-                print("down")
-                visionImage.orientation = .down
-            default:
-                print("default")
-                visionImage.orientation = frame.orientation
-        }
-        
+        visionImage.orientation = orientation
+
         var result: Text
         
         do {
